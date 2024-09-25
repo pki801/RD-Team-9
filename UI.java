@@ -1,6 +1,5 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,9 +8,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class UI extends JFrame implements ActionListener {
-    private JLabel imageLabel;
-    private JButton browseButton;
-    private Dimension screenSize;
+    private final JLabel imageLabel;
+    private final JButton browseButton;
+    private final Dimension screenSize;
+    public BufferedImage img;
 
     public UI() {
         // Set up the frame
@@ -26,10 +26,21 @@ public class UI extends JFrame implements ActionListener {
         imageLabel = new JLabel("", SwingConstants.CENTER);
         add(imageLabel, BorderLayout.CENTER);
 
+        // Label to display binary code
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        add(new JScrollPane(textArea), BorderLayout.EAST);
+
         // Browse button to select an image file
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         browseButton = new JButton("Browse Image");
         browseButton.addActionListener(this);
-        add(browseButton, BorderLayout.SOUTH);
+        browseButton.setPreferredSize(new Dimension(450, 50));
+        buttonPanel.add(browseButton);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     @Override
@@ -41,11 +52,12 @@ public class UI extends JFrame implements ActionListener {
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 try {
-                    BufferedImage img = ImageIO.read(selectedFile);
+                    img = ImageIO.read(selectedFile);
                     if(img != null) {
                         Image scaledImage = getScaledImage(img, screenSize.width, screenSize.height);
                         ImageIcon imageIcon = new ImageIcon(scaledImage);
                         imageLabel.setIcon(imageIcon);
+                        ImageToBinary.getBinaryData(img);
                     } else {
                         JOptionPane.showMessageDialog(this, "The selected file is not a valid image.");
                     }
@@ -70,4 +82,5 @@ public class UI extends JFrame implements ActionListener {
 
         return srcImg.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
     }
+
 }
