@@ -6,8 +6,8 @@ We are exploring how to securely send and retrieve hidden information within ima
 ## Project Overview
 In this project, we’re developing a program to hide encrypted data within images using digital steganography. The project involves two components:
 
-- `Image Encryption Program`: Encrypts an image by embedding hidden data into it.
-- `Image Decryption Program`: Extracts and decrypts the hidden data from the encrypted image.
+- **Image Encryption Program**: Encrypts an image by embedding hidden data into it.
+- **Image Decryption Program**: Extracts and decrypts the hidden data from the encrypted image.
   
 Both components will be integrated into a web application, allowing users to upload images with embedded data, which the recipient can decrypt and retrieve. The application will be built in Java.
 
