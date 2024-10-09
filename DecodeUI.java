@@ -7,15 +7,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class UI extends JFrame implements ActionListener {
+public class DecodeUI extends JFrame implements ActionListener {
     private final JLabel imageLabel;
     private final JButton browseButton;
+    private final JTextArea textArea;
     private final Dimension screenSize;
     public BufferedImage img;
 
-    public UI() {
+    public DecodeUI() {
         // Set up the frame
-        setTitle("Image Display");
+        setTitle("LSB Steganography Extractor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -26,21 +27,23 @@ public class UI extends JFrame implements ActionListener {
         imageLabel = new JLabel("", SwingConstants.CENTER);
         add(imageLabel, BorderLayout.CENTER);
 
-        // Label to display binary code
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
-        textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        add(new JScrollPane(textArea), BorderLayout.EAST);
-
         // Browse button to select an image file
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         browseButton = new JButton("Browse Image");
         browseButton.addActionListener(this);
         browseButton.setPreferredSize(new Dimension(450, 50));
         buttonPanel.add(browseButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+
+        // Set up the text area
+        JPanel subPanel = new JPanel();
+        subPanel.setLayout(new BorderLayout());
+
+        textArea = new JTextArea();
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        subPanel.add(scrollPane, BorderLayout.CENTER);
+        subPanel.add(buttonPanel, BorderLayout.SOUTH);
+        add(subPanel, BorderLayout.SOUTH);
     }
 
     @Override
@@ -57,7 +60,7 @@ public class UI extends JFrame implements ActionListener {
                         Image scaledImage = getScaledImage(img, screenSize.width, screenSize.height);
                         ImageIcon imageIcon = new ImageIcon(scaledImage);
                         imageLabel.setIcon(imageIcon);
-                        ImageToBinary.getBinaryData(img);
+                        textArea.setText(LSBDecoder.extractMessage(img));
                     } else {
                         JOptionPane.showMessageDialog(this, "The selected file is not a valid image.");
                     }

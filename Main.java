@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
 
         SwingUtilities.invokeLater(() -> {
-            UI frame = new UI();
+            DecodeUI frame = new DecodeUI();
             frame.setVisible(true);
         });
     }
