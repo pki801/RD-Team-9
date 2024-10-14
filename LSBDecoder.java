@@ -35,6 +35,9 @@ public class LSBDecoder {
         for (int i = 0; i < binaryMessage.length(); i += 8) {
             String byteString = binaryMessage.substring(i, i + 8);
             int charCode = Integer.parseInt(byteString, 2);
+            if (charCode == 0) {
+                break;
+            }
             message.append((char) charCode);
         }
 
