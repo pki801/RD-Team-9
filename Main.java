@@ -8,10 +8,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
 
-        System.out.println("""
-                1. Encode
-                2. Decode
-                Choose an option:\s""");
+        System.out.println("1. Encode\n" +
+                        "2. Decode\n" +
+                "Choose an option:");
 
         int option = keyboard.nextInt();
         keyboard.nextLine();
