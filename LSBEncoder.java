@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 
 public class LSBEncoder {
 
+    // Method encodes/hides message into image and saves modified image to correct, specified output path
     public static void encodeMessage(BufferedImage image, String message, String outputPath) {
         StringBuilder binaryMessage = new StringBuilder();
 
@@ -19,11 +20,13 @@ public class LSBEncoder {
         int height = image.getHeight();
         int messageIndex = 0;
 
+    // Goes through each pixel in the image
         outerLoop:
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                int pixel = image.getRGB(x, y);
+                int pixel = image.getRGB(x, y); // Gets RGB values of current pixel 
 
+         // Retrieves each RGB value
                 int red = (pixel >> 16) & 0xFF;
                 int green = (pixel >> 8) & 0xFF;
                 int blue = pixel & 0xFF;
@@ -40,6 +43,7 @@ public class LSBEncoder {
                 }
 
                 // Combine new RGB values and set pixel
+                // Reconstructs pixel using modified LSBs and sets it in the image
                 int newPixel = (red << 16) | (green << 8) | blue;
                 image.setRGB(x, y, newPixel);
 
@@ -52,7 +56,7 @@ public class LSBEncoder {
 
         // Write the modified image to a file
         try {
-            ImageIO.write(image, "png", new File(outputPath));
+            ImageIO.write(image, "png", new File(outputPath)); // Saves modified image as PNG file
             System.out.println("Message encoded successfully to " + outputPath);
         } catch (Exception e) {
             e.printStackTrace();
