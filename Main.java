@@ -1,11 +1,14 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
         while (option != 3) {
@@ -32,13 +35,14 @@ public class Main {
 
     }
 
-    private static void encoder() {
+    private static void encoder() throws IOException {
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Enter the image name: ");
         String path = keyboard.nextLine();
 
-        System.out.println("Enter the message to hide: ");
-        String message = keyboard.nextLine();
+        System.out.println("Enter the txt file to hide: ");
+        String filePath = keyboard.nextLine();
+        String message = new String(Files.readAllBytes(Paths.get(filePath)));
 
         System.out.println("Enter the output image name: ");
         String outputPath = keyboard.nextLine();

@@ -24,19 +24,19 @@ public class LSBEncoder {
             for (int x = 0; x < width; x++) {
                 int pixel = image.getRGB(x, y);
 
-                int red = (pixel >> 16) & 0xFF;
-                int green = (pixel >> 8) & 0xFF;
-                int blue = pixel & 0xFF;
+                int red = (pixel >> 16) & 0xFE;
+                int green = (pixel >> 8) & 0xFE;
+                int blue = pixel & 0xFE;
 
                 // Modify LSBs based on the message
                 if (messageIndex < binaryMessage.length()) {
-                    red = (red & 0xFE) | (binaryMessage.charAt(messageIndex++) - '0');
+                    red = red | (binaryMessage.charAt(messageIndex++) - '0');
                 }
                 if (messageIndex < binaryMessage.length()) {
-                    green = (green & 0xFE) | (binaryMessage.charAt(messageIndex++) - '0');
+                    green = green | (binaryMessage.charAt(messageIndex++) - '0');
                 }
                 if (messageIndex < binaryMessage.length()) {
-                    blue = (blue & 0xFE) | (binaryMessage.charAt(messageIndex++) - '0');
+                    blue = blue | (binaryMessage.charAt(messageIndex++) - '0');
                 }
 
                 // Combine new RGB values and set pixel

@@ -3,23 +3,17 @@ import java.awt.image.BufferedImage;
 public class Normalization {
     public static BufferedImage to32Bit(BufferedImage image) {
         if (image != null) {
-            // Create a new BufferedImage with 32-bit (ARGB) format
+            // Create a new BufferedImage with 24-bit (RGB) format
             BufferedImage newImage = new BufferedImage(
                     image.getWidth(),
                     image.getHeight(),
-                    BufferedImage.TYPE_INT_ARGB
+                    BufferedImage.TYPE_INT_RGB
             );
 
             // Iterate through each pixel
             for (int y = 0; y < image.getHeight(); y++) {
                 for (int x = 0; x < image.getWidth(); x++) {
                     int rgb = image.getRGB(x, y);
-                    int alpha = 0xFF; // Default to fully opaque
-
-                    // Check if the image has alpha
-                    if (image.getColorModel().hasAlpha()) {
-                        alpha = (rgb >> 24) & 0xFF;
-                    }
 
                     // Extract RGB values
                     int red = (rgb >> 16) & 0xFF;
@@ -27,10 +21,10 @@ public class Normalization {
                     int blue = rgb & 0xFF;
 
                     // Combine into ARGB format
-                    int argb = (alpha << 24) | (red << 16) | (green << 8) | blue;
+                    int newrgb = (red << 16) | (green << 8) | blue;
 
                     // Set the pixel in the new image
-                    newImage.setRGB(x, y, argb);
+                    newImage.setRGB(x, y, newrgb);
                 }
             }
             return newImage;
