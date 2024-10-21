@@ -1,7 +1,7 @@
 import java.awt.image.BufferedImage;
 
 public class Normalization {
-    public static BufferedImage to32Bit(BufferedImage image) {
+    public static BufferedImage to24Bit(BufferedImage image) {
         if (image != null) {
             // Create a new BufferedImage with 24-bit (RGB) format
             BufferedImage newImage = new BufferedImage(
