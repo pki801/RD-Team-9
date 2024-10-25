@@ -55,7 +55,8 @@ public class LSBEncoder {
 
         // Write the modified image to a file
         try {
-            ImageIO.write(image, "png", new File(outputPath)); // Saves modified image as PNG file
+            String[] path = outputPath.split("\\.");
+            ImageIO.write(image, path[1].trim(), new File(outputPath)); // Saves modified image as PNG file
             System.out.println("Message encoded successfully to " + outputPath);
         } catch (Exception e) {
             e.printStackTrace();
