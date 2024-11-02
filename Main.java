@@ -34,7 +34,8 @@ public class Main {
                 psnr();
             } else if (option == 4) {
                 System.exit(0);
-            } else {
+            }
+            else {
                 System.out.println("Invalid option!");
             }
         }
@@ -43,6 +44,17 @@ public class Main {
 
     private static void encoder() throws IOException {
         Scanner keyboard = new Scanner(System.in);
+        int encoderType = 0;
+        while(true) {
+            System.out.println("1 bit encoder (1) or 2 bits encoder (2): ");
+            encoderType = keyboard.nextInt();
+            if (encoderType == 1 || encoderType == 2) {
+                break;
+            } else {
+                System.out.println("Invalid encoder type.");
+            }
+        }
+        keyboard.nextLine();
         System.out.println("Enter the image name: ");
         String path = keyboard.nextLine();
 
@@ -56,7 +68,11 @@ public class Main {
         try{
             BufferedImage image = ImageIO.read(new File(path));
             BufferedImage newImage = Normalization.to24Bit(image);
-            LSBEncoder.encodeMessage(newImage, message, outputPath);
+            if (encoderType == 1) {
+                LSBEncoder.encodeMessage(newImage, message, outputPath);
+            } else {
+                TwoLSBEncoder.encodeMessage(newImage, message, outputPath);
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -64,12 +80,27 @@ public class Main {
 
     private static void decoder() {
         Scanner keyboard = new Scanner(System.in);
+        int decoderType = 0;
+        while(true) {
+            System.out.println("1 bit decoder (1) or 2 bits decoder (2): ");
+            decoderType = keyboard.nextInt();
+            if (decoderType == 1 || decoderType == 2) {
+                break;
+            } else {
+                System.out.println("Invalid decoder type.");
+            }
+        }
+        keyboard.nextLine();
         System.out.println("Enter the image name: ");
         String path = keyboard.next();
 
         try {
             BufferedImage image = ImageIO.read(new File(path));
-            System.out.println("Hidden Message: " + LSBDecoder.extractMessage(image));
+            if (decoderType == 1) {
+                System.out.println("Hidden Message: " + LSBDecoder.extractMessage(image));
+            } else {
+                System.out.println("Hidden Message: " + TwoLSBDecoder.extractMessage(image));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
