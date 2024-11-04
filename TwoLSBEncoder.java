@@ -48,7 +48,6 @@ public class TwoLSBEncoder {
 
                 // Stop if we've encoded the whole message
                 if (messageIndex >= binaryMessage.length()) {
-                    System.out.println("Binary Message: " + binaryMessage);
                     break outerLoop;
                 }
             }
